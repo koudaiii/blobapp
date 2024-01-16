@@ -1,0 +1,20 @@
+#!/bin/bash
+
+TAG=$1
+ACR_NAME=$2
+
+function usage() {
+    echo "Usage: $0 <tag> <acr-name>"
+    exit 1
+}
+
+if [ -z "$TAG" ]; then
+    usage
+fi
+if [ -z "$ACR_NAME" ]; then
+    usage
+fi
+
+docker build --tag $TAG .
+az acr login --name $ACR_NAME
+docker push $TAG
